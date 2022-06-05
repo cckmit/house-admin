@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.house.mapper.HouseDetailMapper">
+
+    <resultMap id="BaseResultMap" type="com.house.model.HouseDetail">
+        <id property="houseDetailId" column="house_detail_id" jdbcType="VARCHAR"/>
+        <result property="houseId" column="house_id" jdbcType="VARCHAR"/>
+        <result property="houseDetailName" column="house_detail_name" jdbcType="VARCHAR"/>
+        <result property="tenantLeaseId" column="tenant_lease_id" jdbcType="INTEGER"/>
+        <result property="isDelete" column="is_delete" jdbcType="TINYINT"/>
+    </resultMap>
+
+    <resultMap id="HdVOResultMap" type="com.house.model.vo.HouseDetailVO">
+        <id property="houseDetailId" column="house_detail_id" jdbcType="VARCHAR"/>
+        <result property="houseId" column="house_id" jdbcType="VARCHAR"/>
+        <result property="houseDetailName" column="house_detail_name" jdbcType="VARCHAR"/>
+        <result property="tenantLeaseId" column="tenant_lease_id" jdbcType="INTEGER"/>
+        <result property="houseName" column="house_name"/>
+        <result property="rentCost" column="rent_cost"/>
+        <result property="tenantName" column="tenant_name"/>
+        <result property="leaseId" column="lease_id"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        house_detail_id
+        ,house_id,house_detail_name,
+        tenant_lease_id,is_delete
+    </sql>
+
+    <select id="getHouseDetailList" resultMap="HdVOResultMap">
+        SELECT hd.house_detail_id,
+               hd.house_detail_name,-- 房间号
+               hd.hd_status,        -- 出租状态
+               h.house_name,
+               h.house_id,
+               l.rent_cost,
+               l.lease_id, -- 合同编号
+               t.tenant_name
+        FROM house_detail hd
+                 LEFT JOIN house h ON hd.house_id = h.house_id
+                 left join lease l ON l.lease_id = hd.tenant_lease_id
+                 left join tenant t ON l.tenant_id = t.tenant_id
+            ${ew.customSqlSegment}
+    </select>
+
+    <select id="getHouseDetailMaxNum" resultType="java.lang.Integer">
+        select count(*) + 1
+        from house_detail
+        where create_time >= #{fristTime,jdbcType=BIGINT}
+    </select>
+
+    <select id="getRoomInfo" resultType="com.house.model.vo.RoomInfo">
+        SELECT
+            hd.house_detail_id,
+            ho.house_name,
+            ow.house_owner_name,
+            ow.house_owner_phone,
+            ho.owner_lease_id,
+            te.tenant_name,
+            te.tenant_phone,
+            ol.rent_cost AS owner_rent_cost,
+            tl.rent_cost AS tenant_rent_cost,
+            tl.lease_years,
+            hd.tenant_lease_id
+
+        FROM
+            house_detail hd
+                LEFT JOIN tenant te ON te.tenant_id = hd.tenant_id
+                LEFT JOIN house ho  ON ho.house_id  = hd.house_id
+                LEFT JOIN lease ol ON ol.lease_id = ho.owner_lease_id
+                LEFT JOIN lease tl ON tl.lease_id = hd.tenant_lease_id
+                LEFT JOIN house_owner ow ON ho.house_owner_id = ow.house_owner_id
+        WHERE hd.is_delete = 0 and hd.house_detail_id = #{id}
+    </select>
+</mapper>

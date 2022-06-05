@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.house.mapper.RoleMapper">
+
+    <resultMap id="BaseResultMap" type="com.house.model.Role">
+        <id property="roleId" column="role_id" jdbcType="VARCHAR"/>
+        <result property="roleName" column="role_name" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="BIGINT"/>
+        <result property="updateTime" column="update_time" jdbcType="BIGINT"/>
+        <result property="createName" column="create_name" jdbcType="VARCHAR"/>
+        <result property="updateName" column="update_name" jdbcType="VARCHAR"/>
+        <result property="remark" column="remark" jdbcType="VARCHAR"/>
+        <result property="status" column="status" jdbcType="TINYINT"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        role_id,role_name,create_time,
+        update_time,create_name,update_name,
+        remark,status
+    </sql>
+    <select id="getRoleList" resultType="com.house.model.Role">
+        select role_id,
+               role_name,
+               create_time,
+               update_time,
+               create_name,
+               update_name,
+               remark,
+               `status`,
+               menu_info
+        from role ro
+            ${ew.customSqlSegment}
+    </select>
+
+    <select id="getMaxNumByRole" resultType="java.lang.Integer">
+        select count(*) + 1 from `role`
+        where date_format(from_unixtime(LEFT(create_time, 10)), '%Y-%m') = date_format(now(), '%Y-%m')
+    </select>
+</mapper>

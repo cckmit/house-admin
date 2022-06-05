@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.house.mapper.LeaseMapper">
+
+    <resultMap id="BaseResultMap" type="com.house.model.Lease">
+        <id property="leaseId" column="lease_id"/>
+        <result property="leaseUrl" column="lease_url"/>
+        <result property="leaseStart" column="lease_start"/>
+        <result property="leaseEnd" column="lease_end"/>
+        <result property="isDelete" column="is_delete"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        lease_id
+        ,lease_url,lease_start,
+        lease_end,is_delete
+    </sql>
+    <resultMap id="LeaseVOResultMap" type="com.house.model.vo.LeaseTenantVO">
+        <result property="leaseId" column="lease_id"/>
+        <result property="leaseUrl" column="lease_url"/>
+        <result property="leaseStart" column="lease_start"/>
+        <result property="leaseEnd" column="lease_end"/>
+        <result property="userId" column="user_id"/>
+        <result property="rentCost" column="rent_cost"/>
+        <result property="ownerId" column="owner_id"/>
+        <result property="tenantId" column="tenant_id"/>
+        <result property="interval" column="interval"/>
+        <result property="houseId" column="house_id"/>
+        <result property="leaseType" column="lease_type"/>
+        <result property="tenantName" column="tenant_name"/>
+        <result property="houseName" column="house_name"/>
+        <result property="houseDetailName" column="house_detail_name"/>
+        <result property="tenantName" column="tenant_name"/>
+        <result property="tenantPhone" column="tenant_phone"/>
+        <result property="leaseStatus" column="lease_status"/>
+    </resultMap>
+
+
+    <select id="getTenantLeaseList" resultMap="LeaseVOResultMap">
+        SELECT le.lease_id,
+               le.lease_url,
+               le.lease_start,
+               le.lease_end,
+               le.user_id,
+               le.rent_cost,
+               le.owner_id,
+               le.tenant_id,
+               le.`interval`,
+               le.house_detail_id,
+               le.lease_type,
+               te.tenant_name,
+               hd.house_detail_name,
+               te.tenant_name,
+               te.tenant_phone,
+               le.lease_status
+        FROM lease le
+                 LEFT JOIN house_detail hd ON hd.house_detail_id = le.house_detail_id
+                 LEFT JOIN tenant te ON te.tenant_id = le.tenant_id
+
+            ${ew.customSqlSegment}
+    </select>
+    <select id="getLeaseMaxRowId" resultType="java.lang.Integer">
+        select count(*) + 1 from lease
+        where date_format(from_unixtime(LEFT(create_time,10)), '%Y-%m') = date_format(now(), '%Y-%m')
+    </select>
+
+    <resultMap id="LeaseOwnerResultMap" type="com.house.model.vo.LeaseOwnerVO">
+        <result column="house_id" property="houseId"/>
+        <result column="house_name" property="houseName"/>
+        <result column="address" property="address"/>
+        <result column="house_type" property="houseType"/>
+        <result column="house_owner_id" property="houseOwnerId"/>
+        <result column="unit_type" property="unitType"/>
+        <result column="house_area" property="houseArea"/>
+        <result column="owner_lease_id" property="ownerLeaseId"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="create_name" property="createName"/>
+        <result column="update_name" property="updateName"/>
+        <result column="house_rent" property="houseRent"/>
+        <result column="lease_id" property="leaseId"/>
+        <result column="lease_url" property="leaseUrl"/>
+        <result column="lease_start" property="leaseStart"/>
+        <result column="lease_end" property="leaseEnd"/>
+        <result column="is_delete" property="isDelete"/>
+        <result column="user_id" property="userId"/>
+        <result column="rent_cost" property="rentCost"/>
+        <result column="owner_id" property="ownerId"/>
+        <result column="tenant_id" property="tenantId"/>
+        <result column="interval" property="interval"/>
+        <result column="house_detail_id" property="houseDetailId"/>
+        <result column="deposit" property="deposit"/>
+        <result column="lease_type" property="leaseType"/>
+        <result column="house_owner_name" property="houseOwnerName"/>
+        <result column="lease_status" property="leaseStatus"/>
+    </resultMap>
+    <select id="getOwnerLeaseList" resultMap="LeaseOwnerResultMap">
+        select h.house_id,
+               h.house_name,
+               h.address,
+               h.house_type,
+               h.house_owner_id,
+               ho.house_owner_name,
+               h.unit_type,
+               h.house_area,
+               h.owner_lease_id,
+               l.create_time,
+               l.update_time,
+               l.create_name,
+               l.update_name,
+               h.house_rent,
+               l.lease_id,
+               l.lease_url,
+               l.lease_start,
+               l.lease_end,
+               l.is_delete,
+               l.user_id,
+               l.rent_cost,
+               l.owner_id,
+               l.tenant_id,
+               l.`interval`,
+               l.house_detail_id,
+               l.deposit,
+               l.lease_type,
+               l.lease_status
+        from house h
+                 left join lease l on h.owner_lease_id = l.lease_id
+                 left join house_owner ho ON h.house_owner_id = ho.house_owner_id
+            ${ew.customSqlSegment}
+    </select>
+</mapper>

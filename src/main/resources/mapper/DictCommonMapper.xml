@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.house.mapper.DictCommonMapper">
+  <resultMap id="BaseResultMap" type="com.house.model.DictCommon">
+    <!--@mbg.generated-->
+    <!--@Table dict_common-->
+    <id column="dict_id" jdbcType="INTEGER" property="dictId" />
+    <result column="dict_code" jdbcType="VARCHAR" property="dictCode" />
+    <result column="dict_desc" jdbcType="VARCHAR" property="dictDesc" />
+    <result column="category_code" jdbcType="VARCHAR" property="categoryCode" />
+    <result column="category_desc" jdbcType="VARCHAR" property="categoryDesc" />
+    <result column="is_delete" jdbcType="TINYINT" property="isDelete" />
+    <result column="create_time" jdbcType="BIGINT" property="createTime" />
+    <result column="update_time" jdbcType="BIGINT" property="updateTime" />
+    <result column="create_name" jdbcType="VARCHAR" property="createName" />
+    <result column="update_name" jdbcType="VARCHAR" property="updateName" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    dict_id, dict_code, dict_desc, category_code, category_desc, is_delete, create_time, 
+    update_time, create_name, update_name
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from dict_common
+    where dict_id = #{dictId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <!--@mbg.generated-->
+    delete from dict_common
+    where dict_id = #{dictId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="dict_id" keyProperty="dictId" parameterType="com.house.model.DictCommon" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into dict_common (dict_code, dict_desc, category_code, 
+      category_desc, is_delete, create_time, 
+      update_time, create_name, update_name
+      )
+    values (#{dictCode,jdbcType=VARCHAR}, #{dictDesc,jdbcType=VARCHAR}, #{categoryCode,jdbcType=VARCHAR}, 
+      #{categoryDesc,jdbcType=VARCHAR}, #{isDelete,jdbcType=TINYINT}, #{createTime,jdbcType=BIGINT}, 
+      #{updateTime,jdbcType=BIGINT}, #{createName,jdbcType=VARCHAR}, #{updateName,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="dict_id" keyProperty="dictId" parameterType="com.house.model.DictCommon" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into dict_common
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="dictCode != null">
+        dict_code,
+      </if>
+      <if test="dictDesc != null">
+        dict_desc,
+      </if>
+      <if test="categoryCode != null">
+        category_code,
+      </if>
+      <if test="categoryDesc != null">
+        category_desc,
+      </if>
+      <if test="isDelete != null">
+        is_delete,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="createName != null">
+        create_name,
+      </if>
+      <if test="updateName != null">
+        update_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="dictCode != null">
+        #{dictCode,jdbcType=VARCHAR},
+      </if>
+      <if test="dictDesc != null">
+        #{dictDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryCode != null">
+        #{categoryCode,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryDesc != null">
+        #{categoryDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="isDelete != null">
+        #{isDelete,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=BIGINT},
+      </if>
+      <if test="createName != null">
+        #{createName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateName != null">
+        #{updateName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.house.model.DictCommon">
+    <!--@mbg.generated-->
+    update dict_common
+    <set>
+      <if test="dictCode != null">
+        dict_code = #{dictCode,jdbcType=VARCHAR},
+      </if>
+      <if test="dictDesc != null">
+        dict_desc = #{dictDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryCode != null">
+        category_code = #{categoryCode,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryDesc != null">
+        category_desc = #{categoryDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="isDelete != null">
+        is_delete = #{isDelete,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=BIGINT},
+      </if>
+      <if test="createName != null">
+        create_name = #{createName,jdbcType=VARCHAR},
+      </if>
+      <if test="updateName != null">
+        update_name = #{updateName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where dict_id = #{dictId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.house.model.DictCommon">
+    <!--@mbg.generated-->
+    update dict_common
+    set dict_code = #{dictCode,jdbcType=VARCHAR},
+      dict_desc = #{dictDesc,jdbcType=VARCHAR},
+      category_code = #{categoryCode,jdbcType=VARCHAR},
+      category_desc = #{categoryDesc,jdbcType=VARCHAR},
+      is_delete = #{isDelete,jdbcType=TINYINT},
+      create_time = #{createTime,jdbcType=BIGINT},
+      update_time = #{updateTime,jdbcType=BIGINT},
+      create_name = #{createName,jdbcType=VARCHAR},
+      update_name = #{updateName,jdbcType=VARCHAR}
+    where dict_id = #{dictId,jdbcType=INTEGER}
+  </update>
+</mapper>

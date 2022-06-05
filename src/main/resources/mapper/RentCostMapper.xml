@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.house.mapper.RentCostMapper">
+
+    <resultMap id="BaseResultMap" type="com.house.model.RentCost">
+        <id property="rentCostId" column="rent_cost_id" jdbcType="INTEGER"/>
+        <result property="rentCostDate" column="rent_cost_date" jdbcType="INTEGER"/>
+        <result property="rentCostType" column="rent_cost_type" jdbcType="TINYINT"/>
+        <result property="rentCostMonth" column="rent_cost_month" jdbcType="INTEGER"/>
+        <result property="rentCostStatus" column="rent_cost_status" jdbcType="TINYINT"/>
+        <result property="isDelete" column="is_delete" jdbcType="TINYINT"/>
+        <result property="userId" column="user_id" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        rent_cost_id
+        ,rent_cost_date,rent_cost_type,
+        rent_cost_month,rent_cost_status,is_delete,
+        user_id
+    </sql>
+    <resultMap id="RentOwnerVOResMap" type="com.house.model.vo.RentOwnerVO">
+        <result property="houseName" column="house_name"/>
+        <result property="rentCostDate" column="rent_cost_date"/>
+        <result property="rentCostStatus" column="rent_cost_status"/>
+        <result property="houseOwnerName" column="house_owner_name"/>
+        <result property="houseOwnerPhone" column="house_owner_phone"/>
+        <result property="rentCostMonth" column="rent_cost_month"/>
+        <result property="rentCostId" column="rent_cost_id"/>
+    </resultMap>
+    <select id="getOwnerRentList" resultMap="RentOwnerVOResMap">
+        select rc.rent_cost_id,
+               h.house_name,
+               rc.rent_cost_date,
+               rc.rent_cost_month,
+               ho.house_owner_name,
+               ho.house_owner_phone,
+               rc.rent_cost_status,
+               rc.real_time
+
+        from rent_cost rc
+                 left join lease l on rc.lease_id = l.lease_id
+                 left join house h on h.owner_lease_id = l.lease_id
+                 left join house_owner ho on h.house_owner_id = ho.house_owner_id
+            ${ew.customSqlSegment}
+    </select>
+    <select id="getRentCostMaxNum" resultType="java.lang.Integer">
+        select count(*) + 1
+        from rent_cost
+        where date_format(from_unixtime(LEFT(create_time, 10)), '%Y-%m') = date_format(now(), '%Y-%m')
+    </select>
+
+    <resultMap id="TenantRentResultMap" type="com.house.model.vo.RentTenantVO">
+        <result column="rent_cost_id" property="rentCostId"/>
+        <result column="rent_cost_date" property="rentCostDate"/>
+        <result column="rent_cost_type" property="rentCostType"/>
+        <result column="rent_cost_month" property="rentCostMonth"/>
+        <result column="rent_cost_status" property="rentCostStatus"/>
+        <result column="lease_id" property="leaseId"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="create_name" property="createName"/>
+        <result column="update_name" property="updateName"/>
+        <result column="lease_url" property="leaseUrl"/>
+        <result column="lease_start" property="leaseStart"/>
+        <result column="lease_end" property="leaseEnd"/>
+        <result column="rent_cost" property="rentCost"/>
+        <result column="owner_id" property="ownerId"/>
+        <result column="tenant_id" property="tenantId"/>
+        <result column="interval" property="interval"/>
+        <result column="house_detail_id" property="houseDetailId"/>
+        <result column="deposit" property="deposit"/>
+        <result column="lease_type" property="leaseType"/>
+        <result column="house_id" property="houseId"/>
+        <result column="house_detail_name" property="houseDetailName"/>
+        <result column="tenant_lease_id" property="tenantLeaseId"/>
+        <result column="hd_status" property="hdStatus"/>
+        <result column="tenant_name" property="tenantName"/>
+        <result column="tenant_phone" property="tenantPhone"/>
+        <result column="tenant_card" property="tenantCard"/>
+        <result column="sex" property="sex"/>
+        <result column="age" property="age"/>
+        <result column="province" property="province"/>
+        <result column="city" property="city"/>
+    </resultMap>
+    <select id="getTenantRentList" resultMap="TenantRentResultMap">
+        SELECT rc.rent_cost_id,
+               rc.rent_cost_date,
+               rc.rent_cost_type,
+               rc.rent_cost_month,
+               rc.rent_cost_status,
+               rc.lease_id,
+               rc.create_time,
+               rc.update_time,
+               rc.create_name,
+               rc.update_name,
+               le.lease_url,
+               le.lease_start,
+               le.lease_end,
+               le.rent_cost,
+               le.owner_id,
+               le.tenant_id,
+               le.`interval`,
+               le.house_detail_id,
+               le.deposit,
+               le.lease_type,
+               hd.house_id,
+               hd.house_detail_name,
+               le.lease_id AS tenant_lease_id,
+               hd.hd_status,
+               te.tenant_name,
+               te.tenant_phone,
+               te.tenant_card,
+               te.sex,
+               te.age,
+               te.province,
+               te.city,
+               te.district,
+               rc.real_time
+
+        FROM rent_cost rc
+                 LEFT JOIN lease le on rc.lease_id = le.lease_id
+                 LEFT JOIN house_detail hd on le.house_detail_id = hd.house_detail_id
+                 LEFT JOIN tenant te on le.tenant_id = te.tenant_id
+            ${ew.customSqlSegment}
+    </select>
+
+
+    <select id="getOwnerRemind" resultType="com.house.model.OwnerRemind">
+        -- 交租的
+        SELECT hw.house_owner_id,
+               hw.house_owner_name,
+               rc.rent_cost_month,
+               hw.house_owner_phone,
+               rc.rent_cost_date,
+               l.lease_id,
+               l.owner_id,
+               h.house_name,
+               rc.user_id
+        FROM rent_cost rc
+                 LEFT JOIN lease l ON l.lease_id = rc.lease_id
+                 LEFT JOIN house h ON h.owner_lease_id = l.lease_id
+                 LEFT JOIN house_owner hw ON l.owner_id = hw.house_owner_id
+        WHERE rc.rent_cost_date &lt;= #{nowTime}
+          AND rc.rent_cost_status = 0
+          AND rc.is_delete = 0
+          AND rc.rent_cost_type = 1
+    </select>
+
+    <select id="getTenantRemind" resultType="com.house.model.TenantRemind">
+        -- 交租的
+        SELECT t.tenant_id,
+               t.tenant_name,
+               t.tenant_phone,
+               rc.rent_cost_month,
+               rc.rent_cost_date,
+               l.lease_id,
+               l.owner_id,
+               hd.house_detail_name,
+               rc.user_id
+        FROM rent_cost rc
+                 LEFT JOIN lease l ON l.lease_id = rc.lease_id
+                 LEFT JOIN house_detail hd ON hd.tenant_lease_id = l.lease_id
+                 LEFT JOIN tenant t ON t.tenant_id = l.tenant_id
+        WHERE rc.rent_cost_date &lt;= #{nowTime}
+          AND rc.rent_cost_status = 0
+          AND rc.is_delete = 0
+          AND rc.rent_cost_type = 2
+    </select>
+
+    <select id="getRecentRentCost" resultType="com.house.model.vo.RentCostDashboadVO">
+        SELECT rent_cost_id AS rentCostId,
+        if(rent_cost_type='1','应付','应收') AS rentCostTypeName,
+        rent_cost_month AS rentCostMonth,
+        rent_cost_type AS rentCostType,
+        if(rent_cost_type='1',ho.house_owner_name,t.tenant_name) AS rentCostUserName,
+        if(rent_cost_type='1',ho.house_owner_phone,t.tenant_phone) AS rentCostUserPhone
+
+        FROM rent_cost rc
+        LEFT JOIN lease l ON rc.lease_id = l.lease_id
+        LEFT JOIN house_owner ho ON ho.house_owner_id = l.owner_id
+        LEFT JOIN tenant t ON t.tenant_id = l.tenant_id
+        WHERE rent_cost_date &lt;= UNIX_TIMESTAMP(DATE_ADD(curdate(), interval 7 day))*1000
+        and rc.user_id = #{userId} and rc.rent_cost_status = 0
+    </select>
+
+</mapper>

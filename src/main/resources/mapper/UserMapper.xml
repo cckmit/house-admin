@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.house.mapper.UserMapper">
+    <update id="updateEnableSetting">
+        update `user`
+        set ux_enabled = #{uxEnabled}
+        where user_id = #{userId}
+    </update>
+
+    <update id="setDingTalkUid" parameterType="com.house.model.UserInfo">
+        update `user` set dingtalk_uid = #{userInfo.dingtalkUid} where user_id = #{userInfo.userId}
+    </update>
+
+    <select id="getUserMaxNum" resultType="java.lang.Integer">
+        SELECT COUNT(*) + 1
+        FROM `user`
+        WHERE date_format(from_unixtime(LEFT(create_time, 10)), '%Y%m') = DATE_FORMAT(CURDATE(),'%Y%m')
+    </select>
+
+    <resultMap id="UserInfoResultMap" type="com.house.model.UserInfo">
+        <result property="userId" column="user_id"/>
+        <result property="username" column="username"/>
+        <result property="userPhone" column="user_phone"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="wxOpenId" column="wx_open_id"/>
+        <result property="token" column="token"/>
+        <result property="createName" column="create_name"/>
+        <result property="updateName" column="update_name"/>
+        <result property="remark" column="remark"/>
+        <result property="roleName" column="role_name"/>
+        <result property="roleId" column="role_id"/>
+        <result property="roleId" column="role_id"/>
+        <result property="uxEnabled" column="ux_enabled"/>
+    </resultMap>
+
+    <select id="getAccountList" resultMap="UserInfoResultMap">
+        select u.user_id,
+               u.username,
+               u.user_phone,
+               u.create_time,
+               u.update_time,
+               u.wx_open_id,
+               u.token,
+               u.create_name,
+               u.update_name,
+               u.role_id,
+               u.remark,
+               r.role_name,
+               u.ux_enabled
+        from user u
+                 left join role r on r.role_id = u.role_id
+            ${ew.customSqlSegment}
+    </select>
+    <select id="checkUserRoleUse" resultType="java.lang.Integer">
+        select count(*) from `user`
+        where is_delete = 0 and role_id = #{roleId}
+    </select>
+</mapper>

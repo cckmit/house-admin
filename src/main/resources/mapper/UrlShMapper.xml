@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.house.mapper.UrlShMapper">
+    <resultMap id="BaseResultMap" type="com.house.model.UrlSh">
+        <!--@mbg.generated-->
+        <!--@Table url_sh-->
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="url" jdbcType="VARCHAR" property="url"/>
+        <result column="title" jdbcType="VARCHAR" property="title"/>
+    </resultMap>
+
+    <delete id="saveOrUpdate">
+        INSERT INTO `url_sh` (`url`, `title`, `create_date`, `sync_status`)
+        VALUES (#{urlData.url}, #{urlData.title}, #{urlData.createDate}, 0)
+        ON DUPLICATE KEY UPDATE title = VALUES(title)
+    </delete>
+</mapper>

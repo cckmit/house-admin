@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.house.mapper.HouseMapper">
+    <sql id="condition">
+
+    </sql>
+    <resultMap id="HouseVOResult" type="com.house.model.vo.HouseVO">
+        <result column="house_id" property="houseId"/>
+        <result column="house_name" property="houseName"/>
+        <result column="address" property="address"/>
+        <result column="house_owner_id" property="houseOwnerId"/>
+        <result column="user_id" property="userId"/>
+        <result column="unit_type" property="unitType"/>
+        <result column="house_area" property="houseArea"/>
+        <result column="owner_lease_id" property="ownerLeaseId"/>
+        <result column="house_owner_name" property="houseOwnerName"/>
+        <result column="house_owner_phone" property="houseOwnerPhone"/>
+        <result column="house_status" property="houseStatus"/>
+    </resultMap>
+
+    <select id="getHouseList" resultMap="HouseVOResult">
+        SELECT h.house_id,
+               h.house_name,
+               h.address,
+               h.house_type,
+               h.house_owner_id,
+               h.user_id,
+               h.unit_type,
+               h.house_area,
+               h.owner_lease_id,
+               ho.house_owner_name,
+               ho.house_owner_phone,
+               h.house_status
+        FROM house h
+                 LEFT JOIN house_owner ho on h.house_owner_id = ho.house_owner_id
+            ${ew.customSqlSegment}
+    </select>
+    <select id="getHouseIdMaxNum" resultType="java.lang.Integer">
+        select count(*) + 1
+        from house
+        where create_time >= #{startTime}
+    </select>
+
+</mapper>

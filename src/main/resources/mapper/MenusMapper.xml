@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.house.mapper.MenusMapper">
+
+    <resultMap id="BaseResultMap" type="com.house.model.Menus">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="menuId" column="menu_id" jdbcType="VARCHAR"/>
+            <result property="parentMenu" column="parent_menu" jdbcType="VARCHAR"/>
+            <result property="path" column="path" jdbcType="VARCHAR"/>
+            <result property="name" column="name" jdbcType="VARCHAR"/>
+            <result property="component" column="component" jdbcType="VARCHAR"/>
+            <result property="redirect" column="redirect" jdbcType="VARCHAR"/>
+            <result property="metaTitle" column="meta_title" jdbcType="VARCHAR"/>
+            <result property="metaAffix" column="meta_affix" jdbcType="INTEGER"/>
+            <result property="metaIcon" column="meta_icon" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,menu_id,parent_menu,
+        path,name,component,
+        redirect,meta_title,meta_affix,
+        meta_icon
+    </sql>
+    <resultMap id="MenuTreeResMap" type="com.house.model.MenuTree">
+        <result column="id" property="id"/>
+        <result column="icon" property="icon"/>
+        <result column="component" property="component"/>
+        <result column="type" property="type"/>
+        <result column="menuName" property="menuName"/>
+        <result column="permission" property="permission"/>
+        <result column="order_no" property="orderNo"/>
+        <result column="create_time" property="createTime"/>
+        <result column="status" property="status"/>
+        <result column="parent_menu" property="parentMenu"/>
+        <result column="path" property="path"/>
+        <result column="affix" property="affix"/>
+    </resultMap>
+    <select id="getMenuListAll" resultMap="MenuTreeResMap">
+        SELECT m.id,
+               m.meta_icon  AS icon,
+               m.component,
+               m.type,
+               m.meta_title AS menuName,
+               m.permission,
+               m.order_no,
+               m.create_time,
+               m.`status`,
+               m.parent_menu,
+               m.menu_id,
+               m.path,
+               m.meta_affix AS affix
+        FROM menus m
+        where m.is_delete = 0
+        order by m.order_no
+    </select>
+    <select id="getMaxNum" resultType="java.lang.Integer">
+        select  count(*) + 1 from menus
+        where date_format(from_unixtime(LEFT(create_time,10)), '%Y-%m') = date_format(now(), '%Y-%m')
+    </select>
+</mapper>

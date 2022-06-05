@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.house.mapper.HouseOwnerMapper">
+    <resultMap id="BaseResultMap" type="com.house.model.HouseOwner">
+        <id property="houseOwnerId" column="house_owner_id" jdbcType="INTEGER"/>
+        <result property="houseOwnerName" column="house_owner_name" jdbcType="VARCHAR"/>
+        <result property="houseOwnerPhone" column="house_owner_phone" jdbcType="VARCHAR"/>
+        <result property="houseOwnerCard" column="house_owner_card" jdbcType="VARCHAR"/>
+        <result property="isDelete" column="is_delete" jdbcType="TINYINT"/>
+        <result property="userId" column="user_id" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        house_owner_id
+                ,
+        house_owner_name,
+        house_owner_phone,
+        house_owner_card,
+        is_delete,
+        user_id
+    </sql>
+    <insert id="saveAndResId" parameterType="com.house.model.HouseOwner" useGeneratedKeys="true"
+            keyProperty="houseOwnerId">
+        insert into house_owner(house_owner_name,
+                                house_owner_phone,
+                                house_owner_card,
+                                is_delete,
+                                user_id)
+        values (#{houseOwner.houseOwnerName},
+                #{houseOwner.houseOwnerPhone},
+                #{houseOwner.houseOwnerCard},
+                #{houseOwner.isDelete},
+                #{houseOwner.userId})
+        on duplicate key
+            update house_owner_card=
+                       values(house_owner_card),
+                   is_delete=
+                       values(is_delete)
+    </insert>
+
+    <select id="getOwnerList" resultMap="BaseResultMap">
+        select ho.house_owner_id,
+               ho.house_owner_name,
+               ho.house_owner_phone,
+               ho.house_owner_card,
+               ho.create_time,
+               ho.update_time,
+               ho.create_name,
+               ho.update_name
+        from house_owner ho
+            ${ew.customSqlSegment}
+    </select>
+
+    <select id="getMaxNum" resultType="java.lang.Integer">
+        select count(*) + 1
+        from house_owner
+        where create_time >= #{firstTime}
+    </select>
+</mapper>

@@ -1,0 +1,24 @@
+{
+  "properties": [
+    {
+      "name": "jwt.tokenHeader",
+      "type": "java.lang.String",
+      "description": "jwt 存储的请求头."
+    },
+    {
+      "name": "jwt.secret",
+      "type": "java.lang.String",
+      "description": "jwt 加解密使用的秘钥."
+    },
+    {
+      "name": "jwt.expiration",
+      "type": "java.lang.Long",
+      "description": " jwt 过期时间 60*60*24."
+    },
+    {
+      "name": "jwt.tokenHead",
+      "type": "java.lang.String",
+      "description": "jwt payload中拿到开头."
+    }
+  ]
+}
