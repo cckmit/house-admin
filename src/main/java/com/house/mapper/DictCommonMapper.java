@@ -10,8 +10,6 @@ import org.springframework.stereotype.Repository;
 public interface DictCommonMapper extends BaseMapper<DictCommon> {
     int deleteByPrimaryKey(Integer dictId);
 
-    int insert(DictCommon record);
-
     int insertSelective(DictCommon record);
 
     DictCommon selectByPrimaryKey(Integer dictId);

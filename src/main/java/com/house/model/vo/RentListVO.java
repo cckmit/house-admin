@@ -18,7 +18,7 @@ import java.util.List;
 public class RentListVO extends BaseVO {
 
     @Schema(name = "自增ID")
-    private Integer rentListId;
+    private Long rentListId;
 
     @Schema(name = "楼号")
     private String building;
@@ -74,6 +74,12 @@ public class RentListVO extends BaseVO {
     private String imgText;
 
     private String btnType;
+
+    @Schema(name = "收租周期")
+    private Integer rentCycle;
+
+    @Schema(name = "月租金")
+    private Integer rentMonth;
 
     private List<String> uploaderList = new ArrayList<>();
 }

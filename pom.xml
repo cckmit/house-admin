@@ -16,13 +16,11 @@
 
     <properties>
         <java.version>1.8</java.version>
-        <mybatis-plus.version>3.5.1</mybatis-plus.version>
         <bouncycastle.version>1.70</bouncycastle.version>
-        <fastjson.version>2.0.3</fastjson.version>
         <hutool.version>5.8.1</hutool.version>
         <qiniu.version>7.10.2</qiniu.version>
         <lombok.version>1.18.24</lombok.version>
-        <openapi.version>1.6.8</openapi.version>
+        <openapi.version>1.6.9</openapi.version>
         <commons-io.version>2.11.0</commons-io.version>
         <httpclient.version>4.5.13</httpclient.version>
         <jjwt.version>0.9.1</jjwt.version>
@@ -83,7 +81,7 @@
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
-            <version>${mybatis-plus.version}</version>
+            <version>3.5.1</version>
         </dependency>
 
 <!--        <dependency>-->
@@ -108,7 +106,7 @@
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
-            <version>${fastjson.version}</version>
+            <version>1.2.83</version>
         </dependency>
 
         <dependency>
@@ -117,11 +115,11 @@
             <version>${openapi.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>commons-fileupload</groupId>
-            <artifactId>commons-fileupload</artifactId>
-            <version>${commons-fileupload.version}</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>commons-fileupload</groupId>-->
+<!--            <artifactId>commons-fileupload</artifactId>-->
+<!--            <version>${commons-fileupload.version}</version>-->
+<!--        </dependency>-->
 
         <dependency>
             <groupId>org.apache.commons</groupId>
@@ -185,6 +183,16 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <includeSystemScope>true</includeSystemScope>
+                </configuration>
             </plugin>
         </plugins>
     </build>

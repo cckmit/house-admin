@@ -17,33 +17,33 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @SpringBootApplication
 @EnableConfigurationProperties
 @ConfigurationPropertiesScan("com.house.common.properties")
-@EnableTransactionManagement
+//@EnableTransactionManagement
 public class HouseApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(HouseApplication.class, args);
     }
 
-    @Bean
-    public ReloadableResourceBundleMessageSource messageSource() {
-        ReloadableResourceBundleMessageSource reloadableResourceBundleMessageSource = new ReloadableResourceBundleMessageSource();
-        reloadableResourceBundleMessageSource.setBasename("classpath:zh_cn_messages");
-        reloadableResourceBundleMessageSource.setDefaultEncoding("UTF-8");
-        return reloadableResourceBundleMessageSource;
-    }
+//    @Bean
+//    public ReloadableResourceBundleMessageSource messageSource() {
+//        ReloadableResourceBundleMessageSource reloadableResourceBundleMessageSource = new ReloadableResourceBundleMessageSource();
+//        reloadableResourceBundleMessageSource.setBasename("classpath:zh_cn_messages");
+//        reloadableResourceBundleMessageSource.setDefaultEncoding("UTF-8");
+//        return reloadableResourceBundleMessageSource;
+//    }
 
     //用注入的方式配置FastJson
-    @Bean
-    public HttpMessageConverters fastJsonMassageConverter() {
-        //创建FastJson的消息转换器
-        FastJsonHttpMessageConverter convert = new FastJsonHttpMessageConverter();
-        //创建FastJson的配置对象
-        FastJsonConfig config = new FastJsonConfig();
-        //对Json数据进行格式化
-        config.setSerializerFeatures(SerializerFeature.PrettyFormat);
-
-        convert.setFastJsonConfig(config);
-        return new HttpMessageConverters(convert);
-    }
+//    @Bean
+//    public HttpMessageConverters fastJsonMassageConverter() {
+//        //创建FastJson的消息转换器
+//        FastJsonHttpMessageConverter convert = new FastJsonHttpMessageConverter();
+//        //创建FastJson的配置对象
+//        FastJsonConfig config = new FastJsonConfig();
+//        //对Json数据进行格式化
+//        config.setSerializerFeatures(SerializerFeature.PrettyFormat);
+//
+//        convert.setFastJsonConfig(config);
+//        return new HttpMessageConverters(convert);
+//    }
 
 }

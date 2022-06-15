@@ -32,17 +32,7 @@
     delete from dict_common
     where dict_id = #{dictId,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" keyColumn="dict_id" keyProperty="dictId" parameterType="com.house.model.DictCommon" useGeneratedKeys="true">
-    <!--@mbg.generated-->
-    insert into dict_common (dict_code, dict_desc, category_code, 
-      category_desc, is_delete, create_time, 
-      update_time, create_name, update_name
-      )
-    values (#{dictCode,jdbcType=VARCHAR}, #{dictDesc,jdbcType=VARCHAR}, #{categoryCode,jdbcType=VARCHAR}, 
-      #{categoryDesc,jdbcType=VARCHAR}, #{isDelete,jdbcType=TINYINT}, #{createTime,jdbcType=BIGINT}, 
-      #{updateTime,jdbcType=BIGINT}, #{createName,jdbcType=VARCHAR}, #{updateName,jdbcType=VARCHAR}
-      )
-  </insert>
+
   <insert id="insertSelective" keyColumn="dict_id" keyProperty="dictId" parameterType="com.house.model.DictCommon" useGeneratedKeys="true">
     <!--@mbg.generated-->
     insert into dict_common

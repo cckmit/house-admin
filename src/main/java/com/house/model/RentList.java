@@ -1,34 +1,28 @@
 package com.house.model;
 
 import com.baomidou.mybatisplus.annotation.*;
+import com.house.model.base.SassBaseModel;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.EqualsAndHashCode;
 
 import java.time.LocalDate;
 
-@Schema(name = "rent_list")
+@Schema(name = "租单列表")
 @Data
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
 @TableName(value = "rent_list")
-public class RentList {
+@EqualsAndHashCode(callSuper = true)
+public class RentList extends SassBaseModel {
 
     @TableId(value = "rent_list_id", type = IdType.AUTO)
     @Schema(name = "自增ID")
-    private Integer rentListId;
+    private Long rentListId;
 
     @Schema(name = "小区")
     private String community;
 
     @Schema(name = "房号")
     private String roomNo;
-
-    @Schema(name = "期限")
-    private String intervalDate;
 
     @Schema(name = "下次交租日期")
     private LocalDate nextDate;
@@ -72,6 +66,9 @@ public class RentList {
     @Schema(name = "图片地址，逗号，分割")
     private String imgText;
 
-    @TableLogic
-    private int isDelete = 0;
+    @Schema(name = "收租周期")
+    private Integer rentCycle;
+
+    @Schema(name = "月租金")
+    private Integer rentMonth;
 }

@@ -1,5 +1,7 @@
 package com.house.model;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
@@ -17,6 +19,7 @@ public class DictCommon extends BaseBean {
      * 数据字典主键
      */
     @Schema(name = "数据字典主键")
+    @TableId(value = "dict_id", type = IdType.AUTO)
     private Integer dictId;
 
     /**

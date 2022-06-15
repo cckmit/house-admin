@@ -122,6 +122,7 @@ public class RentListService extends ServiceImpl<RentListMapper, RentList> {
         if (CharSequenceUtil.isNotBlank(rentList.getImgText())) {
             List<String> imgList = Stream.of(rentList.getImgText().split(","))
                     .collect(Collectors.toList());
+
             vo.setUploaderList(imgList);
         }
 

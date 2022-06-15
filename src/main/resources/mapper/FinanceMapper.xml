@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.house.mapper.FinanceMapper">
+
+    <resultMap id="BaseResultMap" type="com.house.model.Finance">
+            <id property="financeId" column="finance_id" jdbcType="BIGINT"/>
+            <result property="address" column="address" jdbcType="VARCHAR"/>
+            <result property="rentType" column="rent_type" jdbcType="INTEGER"/>
+            <result property="incomeDate" column="income_date" jdbcType="TIMESTAMP"/>
+            <result property="rentListId" column="rent_list_id" jdbcType="BIGINT"/>
+            <result property="rentMoney" column="rent_money" jdbcType="INTEGER"/>
+            <result property="remark" column="remark" jdbcType="VARCHAR"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+            <result property="createName" column="create_name" jdbcType="VARCHAR"/>
+            <result property="updateName" column="update_name" jdbcType="VARCHAR"/>
+            <result property="userId" column="user_id" jdbcType="VARCHAR"/>
+            <result property="isDelete" column="is_delete" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        finance_id,address,rent_type,
+        income_date,rent_list_id,rent_money,
+        remark,create_time,update_time,
+        create_name,update_name,user_id,
+        is_delete
+    </sql>
+</mapper>

@@ -16,9 +16,9 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
 
     @Override
     public void insertFill(MetaObject metaObject) {
-        log.info("start insert fill ....UserContextHolder:{}", JSON.toJSON(UserContextHolder.getUserInfo()));
-        this.strictInsertFill(metaObject, "createTime", Long.class, DateUtils.getNowTimeStamp());
-        this.strictInsertFill(metaObject, "updateTime", Long.class, DateUtils.getNowTimeStamp());
+        log.info("新增时开始填充字段...");
+        this.strictInsertFill(metaObject, "createTime", LocalDateTime::now, LocalDateTime.class);
+        this.strictInsertFill(metaObject, "updateTime", LocalDateTime::now, LocalDateTime.class);
         this.strictInsertFill(metaObject, "createName", String.class, UserContextHolder.getUserInfo().getUsername());
         this.strictInsertFill(metaObject, "updateName", String.class, UserContextHolder.getUserInfo().getUsername());
         this.strictInsertFill(metaObject, "userId", String.class, UserContextHolder.getUserId());
@@ -26,8 +26,8 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
 
     @Override
     public void updateFill(MetaObject metaObject) {
-        log.info("start update fill ....");
-        this.strictInsertFill(metaObject, "updateTime", LocalDateTime.class, LocalDateTime.now());
+        log.info("更新时开始填充字段....");
+        this.strictInsertFill(metaObject, "updateTime", LocalDateTime::now, LocalDateTime.class);
         this.strictInsertFill(metaObject, "updateName", String.class, UserContextHolder.getUserInfo().getUsername());
     }
 }

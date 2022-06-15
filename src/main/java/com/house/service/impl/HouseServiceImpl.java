@@ -10,7 +10,6 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.house.common.Constant;
-import com.house.common.DictMap;
 import com.house.model.House;
 import com.house.model.HouseDetail;
 import com.house.model.HouseOwner;
@@ -213,14 +212,5 @@ public class HouseServiceImpl extends ServiceImpl<HouseMapper, House> implements
         return houseVO;
     }
 
-    private String buildTypeInfo(String typeArray) {
-        List<Integer> typeList = Stream.of(typeArray.split(","))
-                .map(type -> Integer.valueOf(type.trim()))
-                .collect(Collectors.toList());
-        List<String> houseTypeInfo = typeList.stream()
-                .map(DictMap.HOUSE_TYPE::get)
-                .collect(Collectors.toList());
-        return String.join("/", houseTypeInfo);
-    }
 
 }

@@ -120,21 +120,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity.exceptionHandling().accessDeniedHandler(restAccessDeniedHandler).authenticationEntryPoint(restAuthenticationEntryPoint);
     }
 
-    /**
-     * 忽略安全配置, 添加匹配的地址
-     * 为解决Spring Security 报 403的问题添加
-     * <p>
-     * //     * @param web 安全设置对象
-     *
-     * @throws Exception 异常
-     */
-    @Override
-    public void configure(WebSecurity web) throws Exception {
-        // 忽略匹配项
-        web.ignoring().antMatchers(skipAuth);
-        super.configure(web);
-    }
-
     private CorsConfiguration corsConfig() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
 //    * 请求常用的三种配置，*代表允许所有，当时你也可以自定义属性（比如header只能带什么，只能是post方式等等）

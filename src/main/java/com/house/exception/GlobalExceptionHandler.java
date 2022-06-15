@@ -69,7 +69,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(value = Exception.class)
     public ResultBean<Object> exceptionHandler(HttpServletRequest req, Exception e) {
-        log.error("Exception.class===>{}",e.getMessage());
+        log.error("Exception.class===>{}",e.getMessage(),e);
         if(ObjectUtil.isNotEmpty(e.getLocalizedMessage())){
             return ResultBean.error(e.getLocalizedMessage());
         }else {
