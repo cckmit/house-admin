@@ -3,11 +3,13 @@ package com.house.model.vo;
 import com.house.model.Finance;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.time.LocalDate;
 
 @Data
-public class FinanceVO {
+@EqualsAndHashCode(callSuper = false)
+public class FinanceVO extends BaseVO{
     @Schema(name = "address")
     private String address;
 
