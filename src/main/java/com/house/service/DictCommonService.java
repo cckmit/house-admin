@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.house.common.enums.StatusEnum;
+import com.house.exception.CheckException;
 import com.house.mapper.DictCommonMapper;
 import com.house.model.DictCommon;
 import lombok.extern.slf4j.Slf4j;
@@ -53,6 +54,8 @@ public class DictCommonService extends ServiceImpl<DictCommonMapper, DictCommon>
             }
         }
     }
+
+
 
 }
 

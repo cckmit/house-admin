@@ -42,6 +42,12 @@ public class RentListService extends ServiceImpl<RentListMapper, RentList> {
         String userId = UserContextHolder.getUserId();
         RentList rentList = new RentList();
         BeanUtils.copyProperties(rentListVO, rentList);
+        boolean isOwner = rentListVO.getRentType() == Constant.PERSON_TYPE_LANDLARD;
+        if (CharSequenceUtil.isNotBlank(rentList.getUnionName())
+                && rentList.getUnionName().length() > 80) {
+            throw new CheckException((isOwner ? "业主" : "租客") + "的姓名字符过长,请检查!");
+        }
+
         // 判断小区存在与否
         LambdaQueryWrapper<RentList> dbRentInfo = Wrappers.<RentList>lambdaQuery()
                 .eq(RentList::getCommunity, rentList.getCommunity())

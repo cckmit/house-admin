@@ -12,7 +12,7 @@ public enum ResultCode {
     SUCCESS(10000, "请求成功"),
 
     /* 系统错误 */
-    SYSTEM_INNER_ERROR(11001, "系统内部错误"),
+    SYSTEM_INNER_ERROR(500, "系统错误,请联系管理员!"),
 
 
     /* 参数错误 */
