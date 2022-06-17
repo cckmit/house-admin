@@ -2,19 +2,20 @@ package com.house.model;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.house.model.base.BaseModel;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.*;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.experimental.Accessors;
 
 /**
  * 通用数据字典
  */
 @Schema(name = "通用数据字典")
 @Data
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
+@Accessors(chain = true)
 @EqualsAndHashCode(callSuper = true)
-public class DictCommon extends BaseBean {
+public class DictCommon extends BaseModel {
     /**
      * 数据字典主键
      */

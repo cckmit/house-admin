@@ -10,6 +10,7 @@ import com.house.model.DictCommon;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -37,6 +38,7 @@ public class DictCommonService extends ServiceImpl<DictCommonMapper, DictCommon>
     /**
      * 新增维护小区
      */
+    @Transactional
     public void addCommunity(String community) {
         if (CharSequenceUtil.isNotBlank(community)) {
             LambdaQueryWrapper<DictCommon> dictQuery = Wrappers.<DictCommon>lambdaQuery()
@@ -44,11 +46,10 @@ public class DictCommonService extends ServiceImpl<DictCommonMapper, DictCommon>
                     .eq(DictCommon::getCategoryCode, StatusEnum.COMMUNITY.getCode());
             DictCommon dictCommon = this.getOne(dictQuery);
             if (null == dictCommon) {
-                DictCommon dictParam = DictCommon.builder()
-                        .dictDesc(community)
-                        .categoryCode(StatusEnum.COMMUNITY.getCode())
-                        .build();
-                this.save(dictParam);
+                DictCommon dictParam = new DictCommon()
+                        .setDictDesc(community)
+                        .setCategoryCode(StatusEnum.COMMUNITY.getCode());
+                baseMapper.insert(dictParam);
             }
         }
     }
