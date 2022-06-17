@@ -9,6 +9,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import com.house.common.Constant;
 import com.house.exception.CheckException;
 import com.house.mapper.RentListMapper;
@@ -20,6 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -150,7 +152,8 @@ public class RentListService extends ServiceImpl<RentListMapper, RentList> {
         return resultMap;
     }
 
+    @Transactional
     public Boolean removeRentInfoById(Integer id) {
-        return this.removeById(id);
+        return SqlHelper.retBool(baseMapper.deleteById(id));
     }
 }

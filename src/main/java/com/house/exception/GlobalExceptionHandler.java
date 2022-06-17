@@ -1,8 +1,8 @@
 package com.house.exception;
 
 import cn.hutool.core.util.ObjectUtil;
-import com.house.common.enums.ResultCode;
 import com.house.common.bean.ResultBean;
+import com.house.common.enums.ResultCode;
 import com.qiniu.common.QiniuException;
 import io.jsonwebtoken.ExpiredJwtException;
 import lombok.extern.slf4j.Slf4j;
@@ -69,7 +69,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(value = Exception.class)
     public ResultBean<Object> exceptionHandler(HttpServletRequest req, Exception e) {
-        log.error("Exception.class===>{}",e.getMessage(),e);
+        log.error("Exception.class===>{}", e.getCause(), e);
         return ResultBean.error(ResultCode.SYSTEM_INNER_ERROR);
     }
 }
