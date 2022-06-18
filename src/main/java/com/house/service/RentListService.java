@@ -71,7 +71,7 @@ public class RentListService extends ServiceImpl<RentListMapper, RentList> {
         dictCommonService.addCommunity(rentList.getCommunity());
 
         if (ObjectUtil.isNotEmpty(rentListVO.getRentListId())
-                && ObjectUtil.notEqual(rentListVO.getRentListId(), 0)) {
+                && ObjectUtil.notEqual(rentListVO.getRentListId(), 0L)) {
             return this.updateById(rentList);
         } else {
             return this.save(rentList);
